@@ -4,115 +4,159 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>インサイドセールス診断（12問）</title>
-  <meta name="description" content="12問で、いま止まっているIS工程を1つに絞って可視化します。">
+  <meta name="description" content="12問で、いま止まっているIS工程を1つに絞って可視化します。点数ではなく、詰まりポイントを断定。">
   <style>
-    :root{--bg:#0b0f19;--card:#111827;--muted:#9ca3af;--text:#e5e7eb;--accent:#60a5fa;--border:#1f2937;--danger:#fca5a5;--ok:#86efac;}
-    *{box-sizing:border-box} body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,"Hiragino Sans","Noto Sans JP","Segoe UI",Arial;background:linear-gradient(180deg,#070a12,#0b0f19 28%,#070a12);color:var(--text)}
-    .wrap{max-width:1020px;margin:0 auto;padding:26px 18px 80px}
-    .card{background:rgba(17,24,39,.92);border:1px solid var(--border);border-radius:16px;padding:16px}
-    header.card{padding:18px}
-    h1{font-size:22px;margin:0 0 10px}
-    .lead{margin:0;color:var(--muted);line-height:1.7}
-    .row{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px}
-    .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.25);color:var(--text);font-size:12px}
-    .pill b{color:var(--accent)}
-    .sectionTitle{margin:18px 0 10px;font-size:16px}
-    .fieldGrid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
-    @media(min-width:720px){.fieldGrid{grid-template-columns:1fr 1fr}}
-    .field{display:flex;flex-direction:column;gap:6px}
-    .field label{font-size:12px;color:var(--muted)}
-    .field input,.field select{padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:rgba(3,7,18,.35);color:var(--text);outline:none}
-    .grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:12px}
-    .qhead{display:flex;gap:10px;align-items:flex-start}
-    .qno{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:rgba(96,165,250,.14);border:1px solid rgba(96,165,250,.25);color:var(--accent);font-weight:900}
-    .qtext{font-size:15px;line-height:1.65;margin-top:2px}
-    .opts{display:grid;grid-template-columns:1fr;gap:8px;margin-top:12px}
-    @media(min-width:720px){.opts{grid-template-columns:1fr 1fr}}
-    label.opt{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:rgba(3,7,18,.35);cursor:pointer}
-    label.opt:hover{border-color:rgba(96,165,250,.35)}
-    input[type=radio]{transform:scale(1.1)}
-    .consent{margin-top:10px;display:flex;gap:10px;align-items:flex-start}
-    .muted{color:var(--muted);line-height:1.7}
-    .actions{display:flex;gap:10px;align-items:center;margin-top:16px;flex-wrap:wrap}
-    button{appearance:none;border:0;border-radius:12px;padding:12px 14px;background:var(--accent);color:#06101f;font-weight:900;cursor:pointer}
-    button.secondary{background:transparent;border:1px solid rgba(96,165,250,.35);color:var(--text)}
-    .hint{color:var(--muted);font-size:13px}
-    .err{color:var(--danger)}
-    .ok{color:var(--ok)}
-    .result{margin-top:18px}
-    .badge{display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border-radius:999px;background:rgba(96,165,250,.14);border:1px solid rgba(96,165,250,.25);color:var(--accent);font-weight:900}
-    .resBlock{margin-top:10px;padding:12px;border-radius:14px;border:1px solid var(--border);background:rgba(3,7,18,.35)}
-    .resBlock h3{margin:0 0 6px;font-size:15px}
-    .resBlock p{margin:0;line-height:1.75}
-    .cta{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
-    a.ctaBtn{display:inline-flex;align-items:center;justify-content:center;padding:12px 14px;border-radius:12px;background:var(--accent);color:#06101f;font-weight:900;text-decoration:none}
-    a.ctaBtn.secondary{background:transparent;border:1px solid rgba(96,165,250,.35);color:var(--text)}
-  </style>
+    :root {
+      --bg:#0b0f19; --card:#111827; --muted:#9ca3af; --text:#e5e7eb; --accent:#60a5fa;
+      --border:#1f2937; --danger:#fca5a5; --ok:#86efac;
+    }
+    * { box-sizing:border-box; }
+    body {
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", "Segoe UI", Arial;
+      background: radial-gradient(900px 420px at 20% -10%, rgba(96,165,250,.18), transparent 60%),
+                  radial-gradient(700px 380px at 85% 0%, rgba(34,197,94,.10), transparent 55%),
+                  linear-gradient(180deg,#070a12, #0b0f19 28%, #070a12);
+      color:var(--text);
+    }
+    a { color: var(--accent); }
+    .wrap { max-width: 1020px; margin: 0 auto; padding: 26px 18px 80px; }
+    .card {
+      background: rgba(17,24,39,.92); border: 1px solid var(--border); border-radius: 16px; padding: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.22);
+    }
+    header.card { padding: 18px; }
+    h1 { font-size: 22px; margin: 0 0 10px; letter-spacing:.2px; }
+    .lead { margin:0; color: var(--muted); line-height:1.7; }
+    .row { display:flex; gap: 12px; flex-wrap:wrap; margin-top: 14px; }
+    .pill {
+      display:inline-flex; align-items:center; gap:8px; padding: 8px 12px; border-radius: 999px;
+      background: rgba(96,165,250,.12); border: 1px solid rgba(96,165,250,.25); color: var(--text);
+      font-size: 12px;
+    }
+    .pill b { color: var(--accent); }
+    .steps { display:grid; grid-template-columns: 1fr; gap: 12px; margin-top: 14px; }
+    @media (min-width: 860px) { .steps { grid-template-columns: 1fr 1fr; } }
+    .stepTitle { margin:0 0 8px; font-weight:900; }
+    .muted { color: var(--muted); line-height:1.7; }
+    .sectionTitle { margin: 18px 0 10px; font-size: 16px; }
+    .grid { display:grid; grid-template-columns: 1fr; gap: 14px; margin-top: 12px; }
+    .qhead { display:flex; gap:10px; align-items:flex-start; }
+    .qno {
+      flex:0 0 auto; width: 44px; height: 44px; border-radius: 12px;
+      display:flex; align-items:center; justify-content:center;
+      background: rgba(96,165,250,.14); border: 1px solid rgba(96,165,250,.25);
+      color: var(--accent); font-weight:900;
+    }
+    .qtext { font-size: 15px; line-height: 1.65; margin-top: 2px; }
+    .opts { display:grid; grid-template-columns: 1fr; gap: 8px; margin-top: 12px; }
+    @media (min-width: 720px){ .opts { grid-template-columns: 1fr 1fr; } }
+    label.opt {
+      display:flex; gap:10px; align-items:center; padding: 10px 12px; border-radius: 12px;
+      border: 1px solid var(--border); background: rgba(3,7,18,.35); cursor:pointer;
+    }
+    label.opt:hover { border-color: rgba(96,165,250,.35); }
+    input[type=radio]{ transform: scale(1.1); }
+    .actions { display:flex; gap: 10px; align-items:center; margin-top: 16px; flex-wrap:wrap; }
+    button {
+      appearance:none; border:0; border-radius: 12px; padding: 12px 14px;
+      background: var(--accent); color:#06101f; font-weight:900; cursor:pointer;
+    }
+    button.secondary { background: transparent; border:1px solid rgba(96,165,250,.35); color: var(--text); }
+    .hint { color: var(--muted); font-size: 13px; }
+    .err { color: var(--danger); }
+    .ok { color: var(--ok); }
+    .result { margin-top: 18px; }
+    .badge {
+      display:inline-flex; align-items:center; gap:8px; padding: 7px 11px; border-radius: 999px;
+      background: rgba(96,165,250,.14); border: 1px solid rgba(96,165,250,.25); color: var(--accent); font-weight:900;
+    }
+    .resBlock { margin-top: 10px; padding: 12px; border-radius: 14px; border: 1px solid var(--border); background: rgba(3,7,18,.35); }
+    .resBlock h3 { margin: 0 0 6px; font-size: 15px; }
+    .resBlock p { margin: 0; color: var(--text); line-height: 1.75; }
+    .cta { margin-top: 12px; display:flex; gap:10px; flex-wrap:wrap; }
+    a.ctaBtn {
+      display:inline-flex; align-items:center; justify-content:center; padding: 12px 14px; border-radius: 12px;
+      background: var(--accent); color:#06101f; font-weight:900; text-decoration:none;
+    }
+    a.ctaBtn.secondary { background: transparent; border: 1px solid rgba(96,165,250,.35); color: var(--text); }
+    .small { font-size: 12px; color: var(--muted); margin-top: 10px; line-height:1.7; }
+    .fieldGrid { display:grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px; }
+    @media (min-width: 720px){ .fieldGrid { grid-template-columns: 1fr 1fr; } }
+    .field { display:flex; flex-direction:column; gap: 6px; }
+    .field label { font-size: 12px; color: var(--muted); }
+    .field input, .field select {
+      padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border);
+      background: rgba(3,7,18,.35); color: var(--text);
+      outline: none;
+    }
+    .field input:focus, .field select:focus { border-color: rgba(96,165,250,.45); }
+    .consent { margin-top: 10px; display:flex; gap: 10px; align-items:flex-start; }
+    .tools { margin-top: 12px; display:flex; gap:10px; flex-wrap:wrap; }
+    .tools button { padding: 10px 12px; font-weight:800; }
+    code.inline {
+      background: rgba(255,255,255,.06); padding: 2px 6px; border-radius: 8px;
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .divider { height:1px; background: rgba(255,255,255,.08); margin: 14px 0; }
+    footer { margin-top: 22px; color: var(--muted); font-size: 12px; line-height:1.7; }
+  
+.progressWrap{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+.progressBar{flex:1;height:8px;background:rgba(255,255,255,0.08);border-radius:999px;overflow:hidden}
+.progressFill{height:100%;background:rgba(96,165,250,0.9)}
+.wizardNav{display:flex;justify-content:space-between;gap:12px;margin-top:16px}
+.optWrap{display:flex;align-items:center;gap:10px;margin:10px 0}
+.opt{display:block;width:100%}
+.cardInner{padding:2px}
+
+</style>
 </head>
 <body>
-<div class="wrap">
-  <header class="card">
-    <h1>インサイドセールス診断（12問 / 1分）</h1>
-    <p class="lead">点数ではなく、いま止まっている工程を1つに絞って言い切ります。回答はスプレッドシートに直送されます。</p>
-    <div class="row">
-      <div class="pill"><b>送信先</b>：Google スプレッドシート</div>
-      <div class="pill"><b>同点優先</b>：④→①→②→③</div>
-      <div class="pill"><b>所要</b>：1分</div>
-    </div>
-  </header>
+  <div class="wrap">
+    <header class="card">
+      <h1>インサイドセールス診断（12問 / 1分）</h1>
+      <p class="lead">
+        この診断は「点数」ではなく、<b>いま止まっている工程を1つに絞って言い切る</b>ためのものです。<br/>
+        目的は、ムダを減らし、<b>商談化（とパイプラインの積み上げ）を最短で前に進める</b>こと。
+      </p>
+      <div class="row">
+        <div class="pill"><b>結果</b>：4タイプのいずれかを1つ表示</div>
+        <div class="pill"><b>判定</b>：YESの多いタイプ（同点は④→①→②→③）</div>
+        <div class="pill"><b>所要</b>：回答 1分</div>
+      </div>
 
-  <h2 class="sectionTitle">基本情報（結果表示の前に入力）</h2>
-  <div class="card">
-    <div class="fieldGrid">
-      <div class="field">
-        <label for="role">あなたの立場（必須）</label>
-        <select id="role" required>
-          <option value="">選択してください</option>
-          <option value="leader">IS責任者 / マネージャー</option>
-          <option value="member">IS担当者（SDR/BDR）</option>
-          <option value="other">その他（マーケ/営業企画など）</option>
-        </select>
+      <div class="steps">
+        <div class="card" style="background:rgba(3,7,18,.22)">
+          <p class="stepTitle">この診断で分かること</p>
+          <p class="muted">①インバウンドの取りこぼし / ②優先順位とタイミング / ③仮説不足 / ④責任者視点のパイプライン課題</p>
+        </div>
+        <div class="card" style="background:rgba(3,7,18,.22)">
+          <p class="stepTitle">結果の使い方</p>
+          <p class="muted">結果の「やるべきこと」をベースに、30分で整理（=次の一手を確定）まで進める。</p>
+        </div>
       </div>
-      <div class="field">
-        <label for="company">会社名（任意）</label>
-        <input id="company" placeholder="例）株式会社〇〇" />
+    </header>
+
+    <h2 class="sectionTitle">診断（12問）</h2>
+
+<div id="wizard" class="card"></div>
+<div id="result" class="result"></div>
+
+    <footer class="card">
+      <div><b>運用Tips（おすすめ）</b></div>
+      <div class="muted">
+        ・LPや記事の末尾にこの診断を置く（DL後フォローにも使える）<br/>
+        ・診断結果をもとに30分枠へ誘導（デモではなく「整理」）<br/>
+        ・リード回収はスプレッドシートで十分（HubSpot連携なしでも回る）
       </div>
-      <div class="field">
-        <label for="name">お名前（任意）</label>
-        <input id="name" placeholder="例）山崎 暢大" />
-      </div>
-      <div class="field">
-        <label for="email">メールアドレス（必須）</label>
-        <input id="email" type="email" placeholder="例）xxx@company.co.jp" required />
-      </div>
-    </div>
-    <div class="consent">
-      <input id="consent" type="checkbox" />
-      <label for="consent" class="muted" style="margin-top:1px">診断結果の表示および、結果に基づくご案内のために入力情報を利用することに同意します。</label>
-    </div>
-    <p class="muted" style="margin:10px 0 0">※「結果を見る」を押すと、回答をスプレッドシートに送信してから結果を表示します。</p>
+    </footer>
   </div>
-
-  <h2 class="sectionTitle">診断（12問）</h2>
-  <form id="diagnosisForm" class="grid" autocomplete="off"></form>
-
-  <div class="actions">
-    <button type="button" id="btnResult">結果を見る</button>
-    <button type="button" class="secondary" id="btnReset">リセット</button>
-    <span class="hint">※未回答・必須未入力・同意未チェックはエラー表示します</span>
-  </div>
-
-  <div id="result" class="result"></div>
-</div>
 
 <script>
-/** ====== CONFIG ======
- * 1) 下の APPS_SCRIPT_WEBAPP_URL を、Apps Scriptの「ウェブアプリURL」に差し替えてください。
- * 2) BOOKING_URL は商談予約URL（設定済み）
- */
-const APPS_SCRIPT_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyesmxya5w4LzgBRLT6ouKRTqHnU1hyFWSf9LHxV2SKWLNOWDybygFOQH-2AkpkkBc/exec";
-const BOOKING_URL = "https://meetings.immedio.io/date_select/nurturing_consulting?uk=bJkbljnfDukCjSlBrAyh#calendar";
+/** ====== CONFIG ====== **/
+const BOOKING_URL = "https://meetings.immedio.io/date_select/nurturing_consulting?uk=bJkbljnfDukCjSlBrAyh#calendar"; // 商談予約URL（設定済み）
+const STORAGE_KEY = "is_diagnosis_submissions_v1";
 
+/** ====== Options / Questions ====== **/
 const OPTIONS = [
   { value: "yes", label: "当てはまる" },
   { value: "yes", label: "どちらかというと当てはまる" },
@@ -121,14 +165,21 @@ const OPTIONS = [
 ];
 
 const QUESTIONS = [
+  // Point 1 (p1)
   { id:"q1", point:"p1", title:"問い合わせ・資料請求が入った際、「この顧客は今すぐ話すべきか」を明確に判断できていないことがある" },
   { id:"q2", point:"p1", title:"インバウンドリードが商談につながらなかった理由を、「温度感が低かった」で終わらせていることが多い" },
   { id:"q3", point:"p1", title:"後から振り返って、「この問い合わせ、本当は商談になったはずだ」と感じることがある" },
+
+  // Point 2 (p2)
   { id:"q4", point:"p2", title:"複数のリードが同時にあると、「今、誰を優先すべきか」を明確な基準で判断できていない" },
   { id:"q5", point:"p2", title:"後から振り返って、「今じゃなかったリード」に時間を使っていたと感じることがある" },
   { id:"q6", point:"p2", title:"商談を打診するタイミングが、顧客状況ではなく担当者の判断や空き時間に左右されている" },
+
+  // Point 3 (p3)
   { id:"q7", point:"p3", title:"顧客に連絡する際、「この会社はいま何に困っていそうか」を仮説として持てないことがある" },
   { id:"q8", point:"p3", title:"何をきっかけに声をかければいいか分からず、結果的に後回しになっているリードがある" },
+
+  // Point 4 (p4)
   { id:"q9", point:"p4", title:"インサイドセールスの役割や、何を成果（KPI）とするのかが明確に言語化・共有できていない" },
   { id:"q10", point:"p4", title:"架電数・メール数など、「とりあえず量をやる」以外の成果につながる動き方を説明できていない" },
   { id:"q11", point:"p4", title:"商談数は一定数あるものの、来月・再来月にどれくらい商談パイプラインが積み上がるか見通せていない" },
@@ -136,149 +187,394 @@ const QUESTIONS = [
 ];
 
 const RESULT_COPY = {
-  p1: { badge:"結果：① インバウンド商談化の取りこぼし型", state:"問い合わせ・資料請求は来ているのに、“今すぐ話すべき顧客”への初動が遅れたり、優先度を誤っている状態です。", core:"顧客の見極めと、即時のアプローチが同時にできていません。", todo:"“今話すべき顧客”を瞬時に見極め、そのまま商談打診までつなげる運用を作ること。", ctaText:"「見極め→即時打診」を30分で整理する" },
-  p2: { badge:"結果：② 優先順位・タイミング迷子型", state:"ISは動いているのに、誰を・いつ追うべきかが定まらず、動きが分散している状態です。", core:"追う順番と、商談打診のタイミングが設計されていません。", todo:"優先順位とタイミングを、担当者の判断ではなく仕組みで決めること。", ctaText:"無駄な動きを減らす整理を30分で行う" },
-  p3: { badge:"結果：③ 仮説が立てられず動けない型", state:"顧客の興味関心が見えず、「なぜ今連絡するのか」を作れずに止まっている状態です。", core:"仮説を立てるための顧客情報が不足しています。", todo:"顧客行動を起点に、「今話す理由」を持ってアプローチできる状態を作ること。", ctaText:"会話のきっかけを30分で整理する" },
-  p4: { badge:"結果：④ IS責任者｜パイプラインが積み上がらない型", state:"ISは動いており商談も一定数あるものの、来月・再来月のパイプラインが見えない状態です。", core:"商談が生まれる前工程が設計されておらず、パイプラインが“積み上がる構造”になっていません。", todo:"誰を起点に、いつ、どれくらい商談が積み上がるかを設計・可視化すること。", ctaText:"パイプライン課題を30分で整理する" },
+  p1: {
+    badge: "結果：① インバウンド商談化の取りこぼし型",
+    state: "問い合わせ・資料請求は来ているのに、“今すぐ話すべき顧客”への初動が遅れたり、優先度を誤っている状態です。",
+    core: "顧客の見極めと、即時のアプローチが同時にできていません。",
+    todo: "“今話すべき顧客”を瞬時に見極め、そのまま商談打診までつなげる運用を作ること。",
+    leaderAngle: "責任者視点：インバウンドは最もROIが高い入口。初動遅れは機会損失が大きく、パイプラインが積み上がりません。",
+    memberAngle: "担当者視点：全件追うより「今話すべき人」を拾うだけで、商談化率と再現性が上がります。",
+    ctaText: "「見極め→即時打診」を30分で整理する",
+  },
+  p2: {
+    badge: "結果：② 優先順位・タイミング迷子型",
+    state: "ISは動いているのに、誰を・いつ追うべきかが定まらず、動きが分散している状態です。",
+    core: "追う順番と、商談打診のタイミングが設計されていません。",
+    todo: "優先順位とタイミングを、担当者の判断ではなく仕組みで決めること。",
+    leaderAngle: "責任者視点：活動量は増やせても、判断基準がないと“忙しいのに商談が増えない”が固定化します。",
+    memberAngle: "担当者視点：迷いが減ると、追客の質とスピードが上がり、商談が安定します。",
+    ctaText: "無駄な動きを減らす整理を30分で行う",
+  },
+  p3: {
+    badge: "結果：③ 仮説が立てられず動けない型",
+    state: "顧客の興味関心が見えず、「なぜ今連絡するのか」を作れずに止まっている状態です。",
+    core: "仮説を立てるための顧客情報が不足しています。",
+    todo: "顧客行動を起点に、「今話す理由」を持ってアプローチできる状態を作ること。",
+    leaderAngle: "責任者視点：材料がないと再現性が出ず、個人のセンス勝負になります。",
+    memberAngle: "担当者視点：「理由」があると相手の警戒が下がり、会話が前に進みます。",
+    ctaText: "会話のきっかけを30分で整理する",
+  },
+  p4: {
+    badge: "結果：④ IS責任者｜パイプラインが積み上がらない型",
+    state: "ISは動いており商談も一定数あるものの、来月・再来月のパイプラインが見えない状態です。",
+    core: "商談が生まれる前工程が設計されておらず、パイプラインが“積み上がる構造”になっていません。",
+    todo: "誰を起点に、いつ、どれくらい商談が積み上がるかを設計・可視化すること。",
+    leaderAngle: "責任者視点：KPIと動き方の定義が曖昧だと、改善点が特定できず、数字がブレ続けます。",
+    memberAngle: "担当者視点：方針と優先基準が定まると、迷いなく動けて成果が安定します。",
+    ctaText: "パイプライン課題を30分で整理する",
+  },
 };
 
-function el(tag, attrs={}, children=[]){
-  const node=document.createElement(tag);
-  Object.entries(attrs).forEach(([k,v])=>{ if(k==="class") node.className=v; else if(k==="html") node.innerHTML=v; else node.setAttribute(k,v); });
-  children.forEach(c=>node.appendChild(c));
+/** ====== helpers ====== **/
+function el(tag, attrs = {}, children = []) {
+  const node = document.createElement(tag);
+  Object.entries(attrs).forEach(([k, v]) => {
+    if (k === "class") node.className = v;
+    else if (k === "html") node.innerHTML = v;
+    else if (k.startsWith("on") && typeof v === "function") node.addEventListener(k.slice(2), v);
+    else node.setAttribute(k, v);
+  });
+  (children || []).forEach((c) => node.appendChild(c));
   return node;
 }
 
-function renderForm(){
-  const form=document.getElementById("diagnosisForm");
-  form.innerHTML="";
-  QUESTIONS.forEach((q, idx)=>{
-    const card=el("div",{class:"card"});
-    const head=el("div",{class:"qhead"},[
-      el("div",{class:"qno",html:`Q${idx+1}`}),
-      el("div",{class:"qtext",html:q.title})
-    ]);
-    const opts=el("div",{class:"opts"});
-    OPTIONS.forEach((o,j)=>{
-      const id=`${q.id}_${j}`;
-      const input=el("input",{type:"radio",name:q.id,id,value:o.value,required:"required"});
-      const label=el("label",{class:"opt",for:id},[input,el("span",{html:o.label})]);
-      opts.appendChild(label);
-    });
-    card.appendChild(head); card.appendChild(opts);
-    form.appendChild(card);
-  });
+/** ====== CONFIG (必ずここだけ設定すればOK) ====== **/
+const APPS_SCRIPT_WEBAPP_URL = "ここにApps ScriptのウェブアプリURLを貼る"; // 例: https://script.google.com/macros/s/XXXX/exec
+
+/** ====== State ====== **/
+const state = {
+  step: 0, // 0..QUESTIONS.length-1 = 質問, QUESTIONS.length = 基本情報, QUESTIONS.length+1 = 結果
+  answers: {}, // { q1: "yes"|"no", ... }
+  header: { role: "", company: "", name: "", email: "", consent: false },
+};
+
+function setAnswer(qid, value) {
+  state.answers[qid] = value;
 }
 
-function validateHeader(){
-  const role=document.getElementById("role").value.trim();
-  const email=document.getElementById("email").value.trim();
-  const consent=document.getElementById("consent").checked;
-  if(!role) return "立場（必須）を選択してください。";
-  if(!email) return "メールアドレス（必須）を入力してください。";
-  if(!consent) return "同意チェックを入れてください。";
-  if(APPS_SCRIPT_WEBAPP_URL.includes("PASTE_YOUR_APPS_SCRIPT_WEBAPP_URL_HERE")) return "設定が未完了です：Apps ScriptのウェブアプリURLを差し替えてください。";
+function getAnswer(qid) {
+  return state.answers[qid] || "";
+}
+
+function validateQuestions() {
+  const missing = QUESTIONS.filter((q) => !state.answers[q.id]);
+  if (missing.length) return `未回答が ${missing.length} 問あります。全て回答してください。`;
   return "";
 }
 
-function computeResult(){
-  const headerErr=validateHeader();
-  if(headerErr) return { error: headerErr };
+function validateHeader() {
+  const { role, email, consent } = state.header;
+  if (!role) return "立場（必須）を選択してください。";
+  if (!email) return "メールアドレス（必須）を入力してください。";
+  if (!consent) return "同意チェックを入れてください。";
+  return "";
+}
 
-  const form=document.getElementById("diagnosisForm");
-  const data=new FormData(form);
-  const missing=QUESTIONS.filter(q=>!data.get(q.id));
-  if(missing.length) return { error: `未回答が ${missing.length} 問あります。全て回答してください。` };
+function computeResult() {
+  const qErr = validateQuestions();
+  if (qErr) return { error: qErr };
 
-  const score={p1:0,p2:0,p3:0,p4:0};
-  QUESTIONS.forEach(q=>{ if(data.get(q.id)==="yes") score[q.point]+=1; });
+  const score = { p1: 0, p2: 0, p3: 0, p4: 0 };
+  QUESTIONS.forEach((q) => {
+    const v = state.answers[q.id];
+    if (v === "yes") score[q.point] += 1;
+  });
 
-  const priority=["p4","p1","p2","p3"];
-  let best="p3", bestScore=-1;
-  priority.forEach(p=>{ if(score[p]>bestScore){ best=p; bestScore=score[p]; }});
+  // 同点時の優先（重要度順）
+  const priority = ["p4", "p1", "p2", "p3"];
+  let best = "p3";
+  let bestScore = -1;
+  priority.forEach((p) => {
+    if (score[p] > bestScore) {
+      best = p;
+      bestScore = score[p];
+    }
+  });
 
-  // build payload
-  const payload={
-    timestamp: new Date().toISOString(),
-    role: document.getElementById("role").value.trim(),
-    company: document.getElementById("company").value.trim(),
-    name: document.getElementById("name").value.trim(),
-    email: document.getElementById("email").value.trim(),
+  return { best, score };
+}
+
+function buildPayload(best, score) {
+  const now = new Date().toISOString();
+  const { role, company, name, email } = state.header;
+
+  // 回答も一緒に送る（あとで分析できる）
+  const answers = {};
+  QUESTIONS.forEach((q) => (answers[q.id] = state.answers[q.id] || ""));
+
+  return {
+    timestamp: now,
+    role,
+    company,
+    name,
+    email,
     result: best,
-    p1: score.p1, p2: score.p2, p3: score.p3, p4: score.p4,
-    answers: Object.fromEntries(QUESTIONS.map(q=>[q.id, data.get(q.id)])),
+    p1: score.p1,
+    p2: score.p2,
+    p3: score.p3,
+    p4: score.p4,
+    answers,
     page_url: location.href,
     user_agent: navigator.userAgent,
   };
-
-  return { best, score, payload };
 }
 
-async function postToSheets(payload){
-  // POST JSON; Apps Script will write it into the sheet
-  const res = await fetch(APPS_SCRIPT_WEBAPP_URL, {
-    method: "POST",
-    mode: "cors",
-    headers: { "Content-Type":"application/json" },
-    body: JSON.stringify(payload),
+function trySendToSheet(payload) {
+  const url = (APPS_SCRIPT_WEBAPP_URL || "").trim();
+
+  // 未設定でも結果表示はする（送信だけスキップ）
+  if (!url || url.includes("ここに") || url.includes("PASTE")) {
+    return { attempted: false, message: "未設定（URLを貼るとシートに送れます）" };
+  }
+
+  const bodyStr = JSON.stringify(payload);
+
+  // 1) sendBeacon（推奨：ページ遷移しても送信されやすい / CORSを気にしなくてよい）
+  try {
+    if (navigator.sendBeacon) {
+      const blob = new Blob([bodyStr], { type: "text/plain;charset=utf-8" });
+      const ok = navigator.sendBeacon(url, blob);
+      return { attempted: true, message: ok ? "送信しました（記録中）" : "送信に失敗しました（再送してください）" };
+    }
+  } catch (e) {}
+
+  // 2) fallback: fetch no-cors（レスポンスは読めないが送信自体は飛ぶ）
+  try {
+    fetch(url, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: bodyStr,
+      keepalive: true,
+    }).catch(() => {});
+    return { attempted: true, message: "送信しました（記録中）" };
+  } catch (e) {
+    return { attempted: true, message: "送信に失敗しました（再送してください）" };
+  }
+}
+
+function go(step) {
+  state.step = step;
+  renderWizard();
+}
+
+function next() {
+  if (state.step < QUESTIONS.length) go(state.step + 1);
+}
+
+function prev() {
+  if (state.step > 0) go(state.step - 1);
+}
+
+function renderProgress() {
+  const total = QUESTIONS.length + 1; // 質問 + 基本情報
+  const current = Math.min(state.step + 1, total);
+  const pct = Math.round((current / total) * 100);
+
+  return el("div", { class: "progressWrap" }, [
+    el("div", { class: "muted", html: `進捗：${current}/${total}` }),
+    el("div", { class: "progressBar" }, [el("div", { class: "progressFill", style: `width:${pct}%` })]),
+  ]);
+}
+
+function renderQuestionStep(q, idx) {
+  const title = el("div", { class: "qtext", html: q.title });
+  const opts = el("div", { class: "opts" });
+
+  OPTIONS.forEach((o, j) => {
+    const id = `${q.id}_${idx}_${j}`;
+    const input = el("input", { type: "radio", name: q.id, id, value: o.value });
+    if (getAnswer(q.id) === o.value) input.checked = true;
+    input.addEventListener("change", () => setAnswer(q.id, o.value));
+
+    const label = el("label", { for: id, html: o.label, class: "opt" });
+    const wrap = el("div", { class: "optWrap" }, [input, label]);
+    opts.appendChild(wrap);
   });
-  if(!res.ok){
-    const t = await res.text().catch(()=> "");
-    throw new Error(`送信に失敗しました（HTTP ${res.status}）。${t}`);
-  }
-  const json = await res.json().catch(()=> ({}));
-  if(json && json.status && json.status !== "ok"){
-    throw new Error(`送信に失敗しました：${json.message || "unknown"}`);
-  }
-  return json;
+
+  const nav = el("div", { class: "wizardNav" }, [
+    el("button", { type: "button", class: "secondary", onclick: prev, html: "戻る" }),
+    el("button", {
+      type: "button",
+      onclick: () => {
+        if (!getAnswer(q.id)) {
+          alert("この設問に回答してください。");
+          return;
+        }
+        next();
+      },
+      html: idx === QUESTIONS.length - 1 ? "基本情報へ" : "次へ",
+    }),
+  ]);
+
+  return el("div", { class: "cardInner" }, [
+    renderProgress(),
+    el("div", { class: "badge", html: `Q${idx + 1}` }),
+    title,
+    opts,
+    nav,
+  ]);
 }
 
-function renderResult(res){
-  const out=document.getElementById("result");
-  if(res.error){
-    out.innerHTML=`<div class="card"><div class="err"><b>エラー：</b>${res.error}</div></div>`;
-    out.scrollIntoView({behavior:"smooth",block:"start"});
+function renderHeaderStep() {
+  const roleSel = el("select", { id: "role" }, [
+    el("option", { value: "", html: "選択してください" }),
+    el("option", { value: "leader", html: "IS責任者 / マネージャー" }),
+    el("option", { value: "member", html: "IS担当者（SDR/BDR）" }),
+    el("option", { value: "other", html: "その他（マーケ/営業企画など）" }),
+  ]);
+  roleSel.value = state.header.role || "";
+  roleSel.addEventListener("change", () => (state.header.role = roleSel.value));
+
+  const company = el("input", { id: "company", type: "text", placeholder: "例）株式会社〇〇" });
+  company.value = state.header.company || "";
+  company.addEventListener("input", () => (state.header.company = company.value));
+
+  const name = el("input", { id: "name", type: "text", placeholder: "例）山田 太郎" });
+  name.value = state.header.name || "";
+  name.addEventListener("input", () => (state.header.name = name.value));
+
+  const email = el("input", { id: "email", type: "email", placeholder: "例）taro.yamada@company.co.jp", required: true });
+  email.value = state.header.email || "";
+  email.addEventListener("input", () => (state.header.email = email.value));
+
+  const consent = el("input", { id: "consent", type: "checkbox" });
+  consent.checked = !!state.header.consent;
+  consent.addEventListener("change", () => (state.header.consent = consent.checked));
+
+  const form = el("div", { class: "grid2" }, [
+    el("div", { class: "field" }, [el("label", { for: "role", html: "あなたの立場（必須）" }), roleSel]),
+    el("div", { class: "field" }, [el("label", { for: "company", html: "会社名（任意）" }), company]),
+    el("div", { class: "field" }, [el("label", { for: "name", html: "お名前（任意）" }), name]),
+    el("div", { class: "field" }, [el("label", { for: "email", html: "メールアドレス（必須）" }), email]),
+  ]);
+
+  const consentWrap = el("div", { class: "consent" }, [
+    consent,
+    el("label", {
+      for: "consent",
+      class: "muted",
+      style: "margin-top:1px",
+      html: "診断結果の表示および、結果に基づくご案内のために入力情報を利用することに同意します。",
+    }),
+  ]);
+
+  const nav = el("div", { class: "wizardNav" }, [
+    el("button", { type: "button", class: "secondary", onclick: prev, html: "戻る" }),
+    el("button", {
+      type: "button",
+      onclick: () => {
+        const headerErr = validateHeader();
+        if (headerErr) {
+          alert(headerErr);
+          return;
+        }
+        renderResult();
+      },
+      html: "結果を見る",
+    }),
+  ]);
+
+  return el("div", { class: "cardInner" }, [
+    renderProgress(),
+    el("div", { class: "badge", html: "基本情報" }),
+    el("div", { class: "muted", html: "最後に、結果の表示とご案内のための情報を入力してください。" }),
+    form,
+    consentWrap,
+    el("div", { class: "small", html: "※結果表示は即時に行います。送信は裏側で実行されます（通信状況により遅れる場合があります）。" }),
+    nav,
+  ]);
+}
+
+function renderWizard() {
+  const root = document.getElementById("wizard");
+  root.innerHTML = "";
+
+  // step: 質問
+  if (state.step < QUESTIONS.length) {
+    const q = QUESTIONS[state.step];
+    root.appendChild(renderQuestionStep(q, state.step));
     return;
   }
-  const copy=RESULT_COPY[res.best];
+
+  // step: 基本情報
+  if (state.step === QUESTIONS.length) {
+    root.appendChild(renderHeaderStep());
+    return;
+  }
+}
+
+function renderResult() {
+  const out = document.getElementById("result");
+  out.innerHTML = "";
+
+  const res = computeResult();
+  if (res.error) {
+    out.innerHTML = `<div class="card"><div class="err"><b>エラー：</b>${res.error}</div></div>`;
+    out.scrollIntoView({ behavior: "smooth", block: "start" });
+    return;
+  }
+
+  const best = res.best;
+  const copy = RESULT_COPY[best];
+  const role = (state.header.role || "").trim();
+  const roleLine = role === "leader" ? copy.leaderAngle : copy.memberAngle;
+
+  const payload = buildPayload(best, res.score);
+  const sendStatus = trySendToSheet(payload);
+
   out.innerHTML = `
     <div class="card">
       <div class="badge">${copy.badge}</div>
-      <div class="resBlock" style="margin-top:12px"><h3>あなたの状態</h3><p>${copy.state}</p></div>
-      <div class="resBlock"><h3>本質的な課題</h3><p>${copy.core}</p></div>
-      <div class="resBlock"><h3>やるべきこと</h3><p>${copy.todo}</p></div>
+
+      <div class="resBlock" style="margin-top:12px">
+        <h3>あなたの状態</h3>
+        <p>${copy.state}</p>
+      </div>
+
+      <div class="resBlock">
+        <h3>本質的な課題</h3>
+        <p>${copy.core}</p>
+      </div>
+
+      <div class="resBlock">
+        <h3>やるべきこと</h3>
+        <p>${copy.todo}</p>
+      </div>
+
+      <div class="resBlock">
+        <h3>補足（あなたの立場に合わせた見立て）</h3>
+        <p>${roleLine}</p>
+      </div>
+
       <div class="cta">
         <a class="ctaBtn" href="${BOOKING_URL}" target="_blank" rel="noopener">${copy.ctaText}</a>
-        <a class="ctaBtn secondary" href="#" id="btnPrint">この結果を印刷（PDF保存）</a>
+        <a class="ctaBtn secondary" href="#" id="btnResetAll">もう一度診断する</a>
       </div>
-      <div class="muted" style="margin-top:12px"><span class="ok"><b>送信済み：</b></span>回答はスプレッドシートに記録されました。</div>
+
+      <div class="divider"></div>
+
+      <div class="small">
+        <b>送信ステータス：</b> ${sendStatus.message}<br/>
+        ※結果表示と送信は独立しています（送信が失敗しても、結果は表示されます）。
+      </div>
     </div>
   `;
-  document.getElementById("btnPrint").onclick = (e)=>{ e.preventDefault(); window.print(); };
-  out.scrollIntoView({behavior:"smooth",block:"start"});
+
+  document.getElementById("btnResetAll").onclick = (e) => {
+    e.preventDefault();
+    state.step = 0;
+    state.answers = {};
+    state.header = { role: "", company: "", name: "", email: "", consent: false };
+    out.innerHTML = "";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    renderWizard();
+  };
+
+  out.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-document.getElementById("btnResult").addEventListener("click", async ()=>{
-  const out=document.getElementById("result");
-  out.innerHTML = `<div class="card"><div class="muted">送信中…（数秒）</div></div>`;
-  const res = computeResult();
-  if(res.error){ renderResult(res); return; }
-  try{
-    await postToSheets(res.payload);
-    renderResult(res);
-  }catch(e){
-    out.innerHTML = `<div class="card"><div class="err"><b>送信エラー：</b>${e.message}</div><div class="muted" style="margin-top:8px">Apps Scriptの公開設定（アクセス権）とURLを確認してください。</div></div>`;
-    out.scrollIntoView({behavior:"smooth",block:"start"});
-  }
-});
-
-document.getElementById("btnReset").addEventListener("click", ()=>{
-  document.getElementById("diagnosisForm").reset();
-  document.getElementById("result").innerHTML="";
-  window.scrollTo({top:0,behavior:"smooth"});
-});
-
-renderForm();
+renderWizard();
 </script>
 </body>
 </html>
