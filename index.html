@@ -3,578 +3,601 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>インサイドセールス診断（12問）</title>
-  <meta name="description" content="12問で、いま止まっているIS工程を1つに絞って可視化します。点数ではなく、詰まりポイントを断定。">
+  <title>インサイドセールス診断（12問 / 1分）</title>
   <style>
-    :root {
-      --bg:#0b0f19; --card:#111827; --muted:#9ca3af; --text:#e5e7eb; --accent:#60a5fa;
-      --border:#1f2937; --danger:#fca5a5; --ok:#86efac;
+    :root{
+      --bg:#0b1220;
+      --panel:#111b2e;
+      --text:#e8eefc;
+      --muted:#a8b3cc;
+      --line:rgba(255,255,255,.12);
+      --accent:#6aa7ff;
+      --accent2:#4fd1c5;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --radius:16px;
+      --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans JP","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,Arial,sans-serif;
     }
-    * { box-sizing:border-box; }
-    body {
-      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", "Segoe UI", Arial;
-      background: radial-gradient(900px 420px at 20% -10%, rgba(96,165,250,.18), transparent 60%),
-                  radial-gradient(700px 380px at 85% 0%, rgba(34,197,94,.10), transparent 55%),
-                  linear-gradient(180deg,#070a12, #0b0f19 28%, #070a12);
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:var(--font);
+      background:radial-gradient(1200px 600px at 20% 10%, rgba(106,167,255,.18), transparent 55%),
+                 radial-gradient(900px 500px at 80% 20%, rgba(79,209,197,.14), transparent 55%),
+                 var(--bg);
       color:var(--text);
     }
-    a { color: var(--accent); }
-    .wrap { max-width: 1020px; margin: 0 auto; padding: 26px 18px 80px; }
-    .card {
-      background: rgba(17,24,39,.92); border: 1px solid var(--border); border-radius: 16px; padding: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.22);
+    .wrap{max-width:980px;margin:0 auto;padding:28px 18px 60px;}
+    .hero{
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius);
+      padding: 22px 22px 18px;
     }
-    header.card { padding: 18px; }
-    h1 { font-size: 22px; margin: 0 0 10px; letter-spacing:.2px; }
-    .lead { margin:0; color: var(--muted); line-height:1.7; }
-    .row { display:flex; gap: 12px; flex-wrap:wrap; margin-top: 14px; }
-    .pill {
-      display:inline-flex; align-items:center; gap:8px; padding: 8px 12px; border-radius: 999px;
-      background: rgba(96,165,250,.12); border: 1px solid rgba(96,165,250,.25); color: var(--text);
-      font-size: 12px;
+    h1{margin:0 0 10px;font-size:26px;letter-spacing:.3px;}
+    .lead{margin:0 0 14px;color:var(--muted);line-height:1.6;font-size:14.5px;}
+    .chips{display:flex;gap:10px;flex-wrap:wrap}
+    .chip{
+      font-size:12.5px;color:#dbe7ff;border:1px solid var(--line);
+      padding:6px 10px;border-radius:999px;background: rgba(255,255,255,.04);
     }
-    .pill b { color: var(--accent); }
-    .steps { display:grid; grid-template-columns: 1fr; gap: 12px; margin-top: 14px; }
-    @media (min-width: 860px) { .steps { grid-template-columns: 1fr 1fr; } }
-    .stepTitle { margin:0 0 8px; font-weight:900; }
-    .muted { color: var(--muted); line-height:1.7; }
-    .sectionTitle { margin: 18px 0 10px; font-size: 16px; }
-    .grid { display:grid; grid-template-columns: 1fr; gap: 14px; margin-top: 12px; }
-    .qhead { display:flex; gap:10px; align-items:flex-start; }
-    .qno {
-      flex:0 0 auto; width: 44px; height: 44px; border-radius: 12px;
-      display:flex; align-items:center; justify-content:center;
-      background: rgba(96,165,250,.14); border: 1px solid rgba(96,165,250,.25);
-      color: var(--accent); font-weight:900;
+    .progressWrap{display:flex;align-items:center;gap:10px;margin-top:10px;}
+    .bar{
+      height:10px;flex:1;border-radius:999px;background: rgba(255,255,255,.08);
+      overflow:hidden;border:1px solid rgba(255,255,255,.10);
     }
-    .qtext { font-size: 15px; line-height: 1.65; margin-top: 2px; }
-    .opts { display:grid; grid-template-columns: 1fr; gap: 8px; margin-top: 12px; }
-    @media (min-width: 720px){ .opts { grid-template-columns: 1fr 1fr; } }
-    label.opt {
-      display:flex; gap:10px; align-items:center; padding: 10px 12px; border-radius: 12px;
-      border: 1px solid var(--border); background: rgba(3,7,18,.35); cursor:pointer;
-    }
-    label.opt:hover { border-color: rgba(96,165,250,.35); }
-    input[type=radio]{ transform: scale(1.1); }
-    .actions { display:flex; gap: 10px; align-items:center; margin-top: 16px; flex-wrap:wrap; }
-    button {
-      appearance:none; border:0; border-radius: 12px; padding: 12px 14px;
-      background: var(--accent); color:#06101f; font-weight:900; cursor:pointer;
-    }
-    button.secondary { background: transparent; border:1px solid rgba(96,165,250,.35); color: var(--text); }
-    .hint { color: var(--muted); font-size: 13px; }
-    .err { color: var(--danger); }
-    .ok { color: var(--ok); }
-    .result { margin-top: 18px; }
-    .badge {
-      display:inline-flex; align-items:center; gap:8px; padding: 7px 11px; border-radius: 999px;
-      background: rgba(96,165,250,.14); border: 1px solid rgba(96,165,250,.25); color: var(--accent); font-weight:900;
-    }
-    .resBlock { margin-top: 10px; padding: 12px; border-radius: 14px; border: 1px solid var(--border); background: rgba(3,7,18,.35); }
-    .resBlock h3 { margin: 0 0 6px; font-size: 15px; }
-    .resBlock p { margin: 0; color: var(--text); line-height: 1.75; }
-    .cta { margin-top: 12px; display:flex; gap:10px; flex-wrap:wrap; }
-    a.ctaBtn {
-      display:inline-flex; align-items:center; justify-content:center; padding: 12px 14px; border-radius: 12px;
-      background: var(--accent); color:#06101f; font-weight:900; text-decoration:none;
-    }
-    a.ctaBtn.secondary { background: transparent; border: 1px solid rgba(96,165,250,.35); color: var(--text); }
-    .small { font-size: 12px; color: var(--muted); margin-top: 10px; line-height:1.7; }
-    .fieldGrid { display:grid; grid-template-columns: 1fr; gap: 10px; margin-top: 10px; }
-    @media (min-width: 720px){ .fieldGrid { grid-template-columns: 1fr 1fr; } }
-    .field { display:flex; flex-direction:column; gap: 6px; }
-    .field label { font-size: 12px; color: var(--muted); }
-    .field input, .field select {
-      padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border);
-      background: rgba(3,7,18,.35); color: var(--text);
-      outline: none;
-    }
-    .field input:focus, .field select:focus { border-color: rgba(96,165,250,.45); }
-    .consent { margin-top: 10px; display:flex; gap: 10px; align-items:flex-start; }
-    .tools { margin-top: 12px; display:flex; gap:10px; flex-wrap:wrap; }
-    .tools button { padding: 10px 12px; font-weight:800; }
-    code.inline {
-      background: rgba(255,255,255,.06); padding: 2px 6px; border-radius: 8px;
-      border:1px solid rgba(255,255,255,.08);
-    }
-    .divider { height:1px; background: rgba(255,255,255,.08); margin: 14px 0; }
-    footer { margin-top: 22px; color: var(--muted); font-size: 12px; line-height:1.7; }
-  
-.progressWrap{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
-.progressBar{flex:1;height:8px;background:rgba(255,255,255,0.08);border-radius:999px;overflow:hidden}
-.progressFill{height:100%;background:rgba(96,165,250,0.9)}
-.wizardNav{display:flex;justify-content:space-between;gap:12px;margin-top:16px}
-.optWrap{display:flex;align-items:center;gap:10px;margin:10px 0}
-.opt{display:block;width:100%}
-.cardInner{padding:2px}
+    .bar>div{height:100%;width:0%;background: linear-gradient(90deg, var(--accent), var(--accent2));}
+    .stage{font-size:12.5px;color:#dbe7ff;white-space:nowrap;}
 
-</style>
+    .main{margin-top:16px;display:grid;grid-template-columns:1fr;gap:14px;}
+    .card{
+      border-radius: var(--radius);
+      border:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      box-shadow: var(--shadow);
+      padding: 18px;
+    }
+    .muted{color:var(--muted)}
+    .qTitle{display:flex;align-items:flex-start;gap:10px;margin:4px 0 12px;}
+    .qNo{
+      min-width:42px;height:42px;border-radius:12px;
+      background: rgba(106,167,255,.18);
+      border: 1px solid rgba(106,167,255,.35);
+      display:flex;align-items:center;justify-content:center;
+      font-weight:700;color:#eaf2ff;
+    }
+    .qText{font-size:16px;line-height:1.6;margin:2px 0 0;}
+    .opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0 10px;}
+    @media (max-width:720px){.opts{grid-template-columns:1fr}h1{font-size:22px}}
+    label.opt{
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      border-radius: 14px;
+      padding: 12px;
+      display:flex;gap:10px;align-items:flex-start;
+      cursor:pointer;transition:.15s ease;min-height:54px;
+    }
+    label.opt:hover{transform: translateY(-1px); border-color: rgba(106,167,255,.35)}
+    label.opt input{margin-top:4px}
+    .optTxt{font-size:14px;line-height:1.5}
+    .nav{display:flex;justify-content:space-between;gap:10px;margin-top:14px;}
+    button{
+      font-family:var(--font);
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      padding: 10px 14px;
+      border-radius: 12px;
+      cursor:pointer;
+      transition:.15s ease;
+      font-size: 14px;
+    }
+    button:hover{transform: translateY(-1px); border-color: rgba(106,167,255,.35)}
+    button.primary{
+      background: linear-gradient(90deg, rgba(106,167,255,.85), rgba(79,209,197,.75));
+      border:none;color:#06101f;font-weight:700;
+    }
+    .err{
+      color:#ffd0d0;border:1px solid rgba(255,107,107,.35);
+      background: rgba(255,107,107,.08);
+      padding:10px 12px;border-radius:12px;font-size:13.5px;line-height:1.5;
+      margin-top:10px;display:none;
+    }
+
+    .fields{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+    .fields .full{grid-column: 1 / -1}
+    .field{display:flex;flex-direction:column;gap:6px;}
+    .field label{font-size:12.5px;color:var(--muted)}
+    input[type="text"], input[type="email"], select{
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.14);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      outline: none;
+      font-size: 14px;
+    }
+    input::placeholder{color: rgba(255,255,255,.45)}
+    select{appearance:none}
+
+    .consent{
+      display:flex;gap:10px;align-items:flex-start;
+      margin-top:12px;padding:10px 12px;border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      font-size: 12.5px;
+      line-height:1.6;
+    }
+
+    .badge{
+      display:inline-flex;align-items:center;gap:8px;
+      border-radius:999px;padding:6px 10px;font-size:12.5px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.14);
+      color:#dbe7ff;width:fit-content;
+    }
+    .resTitle{font-size:18px;margin:8px 0 0;line-height:1.45;}
+    .resultGrid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:12px;}
+    .resBlock{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.12);
+      border-radius: 14px;
+      padding: 12px 12px;
+    }
+    .resBlock h3{margin:0 0 6px;font-size:13px;color:#dbe7ff;letter-spacing:.2px;}
+    .resBlock p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.7;white-space:pre-wrap;}
+
+    .ctaRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;}
+    a.btnlink{
+      text-decoration:none;
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:10px 14px;border-radius:12px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      font-size:14px;
+      transition:.15s ease;
+    }
+    a.btnlink:hover{transform: translateY(-1px); border-color: rgba(106,167,255,.35)}
+
+    footer{margin-top:18px;color: rgba(255,255,255,.35);font-size:12px;text-align:center;}
+  </style>
 </head>
 <body>
   <div class="wrap">
-    <header class="card">
+    <div class="hero">
       <h1>インサイドセールス診断（12問 / 1分）</h1>
       <p class="lead">
-        この診断は「点数」ではなく、<b>いま止まっている工程を1つに絞って言い切る</b>ためのものです。<br/>
-        目的は、ムダを減らし、<b>商談化（とパイプラインの積み上げ）を最短で前に進める</b>こと。
+        12問に答えるだけで、いま最も改善インパクトが出やすいポイントを1つに整理します。<br/>
+        結果はその場で表示されます（記録は任意）。
       </p>
-      <div class="row">
-        <div class="pill"><b>結果</b>：4タイプのいずれかを1つ表示</div>
-        <div class="pill"><b>判定</b>：YESの多いタイプ（同点は④→①→②→③）</div>
-        <div class="pill"><b>所要</b>：回答 1分</div>
+      <div class="chips">
+        <div class="chip">形式：1問ずつ</div>
+        <div class="chip">出力：4つの改善ポイントのうち1つ</div>
+        <div class="chip">記録：スプレッド（任意）</div>
       </div>
 
-      <div class="steps">
-        <div class="card" style="background:rgba(3,7,18,.22)">
-          <p class="stepTitle">この診断で分かること</p>
-          <p class="muted">①インバウンドの取りこぼし / ②優先順位とタイミング / ③仮説不足 / ④責任者視点のパイプライン課題</p>
-        </div>
-        <div class="card" style="background:rgba(3,7,18,.22)">
-          <p class="stepTitle">結果の使い方</p>
-          <p class="muted">結果の「やるべきこと」をベースに、30分で整理（=次の一手を確定）まで進める。</p>
-        </div>
+      <div class="progressWrap">
+        <div class="bar"><div id="barFill"></div></div>
+        <div class="stage" id="stageText">開始</div>
       </div>
-    </header>
+    </div>
 
-    <h2 class="sectionTitle">診断（12問）</h2>
-
-<div id="wizard" class="card"></div>
-<div id="result" class="result"></div>
-
-    <footer class="card">
-      <div><b>運用Tips（おすすめ）</b></div>
-      <div class="muted">
-        ・LPや記事の末尾にこの診断を置く（DL後フォローにも使える）<br/>
-        ・診断結果をもとに30分枠へ誘導（デモではなく「整理」）<br/>
-        ・リード回収はスプレッドシートで十分（HubSpot連携なしでも回る）
-      </div>
-    </footer>
+    <div class="main">
+      <div class="card" id="screen"></div>
+      <footer>※静的HTMLで動作します（GitHub Pages向け）。</footer>
+    </div>
   </div>
 
 <script>
-/** ====== CONFIG ====== **/
-const BOOKING_URL = "https://meetings.immedio.io/date_select/nurturing_consulting?uk=bJkbljnfDukCjSlBrAyh#calendar"; // 商談予約URL（設定済み）
-const STORAGE_KEY = "is_diagnosis_submissions_v1";
+/** =============================
+ * 設定（ここだけ編集すればOK）
+ * ============================== */
 
-/** ====== Options / Questions ====== **/
-const OPTIONS = [
-  { value: "yes", label: "当てはまる" },
-  { value: "yes", label: "どちらかというと当てはまる" },
-  { value: "no",  label: "あまり当てはまらない" },
-  { value: "no",  label: "当てはまらない" },
-];
+// 1) Apps Script WebアプリURL（スプレッドに記録する場合のみ）
+// 例: "https://script.google.com/macros/s/XXXX/exec"
+const APPS_SCRIPT_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzbx0q9Y6ZhWViEcz8FfTkIze71mDKz9ssif53LUfnDuqooeaVoVrCKWByuaeFkWA/exec"; // /exec を貼る
 
+// 2) 参考リンク（結果画面に出す。不要なら空文字 "" にする）
+const REFERENCE_URL = "https://meetings.immedio.io/date_select/nurturing_consulting?uk=bJkbljnfDukCjSlBrAyh#calendar";
+
+// 3) 質問（12問）
 const QUESTIONS = [
-  // Point 1 (p1)
-  { id:"q1", point:"p1", title:"問い合わせ・資料請求が入った際、「この顧客は今すぐ話すべきか」を明確に判断できていないことがある" },
-  { id:"q2", point:"p1", title:"インバウンドリードが商談につながらなかった理由を、「温度感が低かった」で終わらせていることが多い" },
-  { id:"q3", point:"p1", title:"後から振り返って、「この問い合わせ、本当は商談になったはずだ」と感じることがある" },
+  // p1：インバウンド初動・取りこぼし
+  { key:"q1", text:"問い合わせ・資料請求が入った直後、『今すぐ話すべき顧客』を明確に判断できないことがある", bucket:"p1" },
+  { key:"q2", text:"インバウンドが商談につながらなかった理由を、『温度感が低かった』で終わらせていることが多い", bucket:"p1" },
+  { key:"q3", text:"後から振り返って、『この問い合わせは本当は商談になったはず』と感じることがある", bucket:"p1" },
 
-  // Point 2 (p2)
-  { id:"q4", point:"p2", title:"複数のリードが同時にあると、「今、誰を優先すべきか」を明確な基準で判断できていない" },
-  { id:"q5", point:"p2", title:"後から振り返って、「今じゃなかったリード」に時間を使っていたと感じることがある" },
-  { id:"q6", point:"p2", title:"商談を打診するタイミングが、顧客状況ではなく担当者の判断や空き時間に左右されている" },
+  // p2：優先順位・タイミング
+  { key:"q4", text:"複数リードが同時にあるとき、『今、誰を優先すべきか』を明確な基準で判断できていない", bucket:"p2" },
+  { key:"q5", text:"後から振り返って、『今じゃなかったリード』に時間を使っていたと感じることがある", bucket:"p2" },
+  { key:"q6", text:"商談を打診するタイミングが、顧客状況より担当者の判断や空き時間に左右されている", bucket:"p2" },
 
-  // Point 3 (p3)
-  { id:"q7", point:"p3", title:"顧客に連絡する際、「この会社はいま何に困っていそうか」を仮説として持てないことがある" },
-  { id:"q8", point:"p3", title:"何をきっかけに声をかければいいか分からず、結果的に後回しになっているリードがある" },
+  // p3：仮説づくり・理由づけ
+  { key:"q7", text:"顧客に連絡する際、『この会社はいま何に困っていそうか』を仮説として持てないことがある", bucket:"p3" },
+  { key:"q8", text:"顧客の興味関心が掴めず、『なぜ今連絡するのか』の理由づけが難しい", bucket:"p3" },
+  { key:"q9", text:"電話・メールの打ち手がワンパターンになり、次の一手が出てこないことがある", bucket:"p3" },
 
-  // Point 4 (p4)
-  { id:"q9", point:"p4", title:"インサイドセールスの役割や、何を成果（KPI）とするのかが明確に言語化・共有できていない" },
-  { id:"q10", point:"p4", title:"架電数・メール数など、「とりあえず量をやる」以外の成果につながる動き方を説明できていない" },
-  { id:"q11", point:"p4", title:"商談数は一定数あるものの、来月・再来月にどれくらい商談パイプラインが積み上がるか見通せていない" },
-  { id:"q12", point:"p4", title:"商談数が思うように伸びないとき、「何を変えれば良いか」がはっきり分からない状態になっている" },
+  // p4：体制/KPI/パイプライン（責任者向け）
+  { key:"q10", text:"インサイドセールスの役割や、何をKPIにすべきかが明確に決まっていない", bucket:"p4" },
+  { key:"q11", text:"商談数は一定あるが、翌月以降につながるパイプラインが安定して積み上がらない", bucket:"p4" },
+  { key:"q12", text:"架電数・メール数など『とりあえず量をやる』以外の再現性あるやり方が作れていない", bucket:"p4" },
 ];
 
+// 4) 選択肢（4段階）
+const OPTIONS = [
+  { label:"当てはまる", val:3 },
+  { label:"どちらかというと当てはまる", val:2 },
+  { label:"あまり当てはまらない", val:1 },
+  { label:"当てはまらない", val:0 },
+];
+
+/** =============================
+ * 結果文（ポジティブ寄り）
+ * ============================== */
 const RESULT_COPY = {
   p1: {
-    badge: "結果：① インバウンド商談化の取りこぼし型",
-    state: "問い合わせ・資料請求は来ているのに、“今すぐ話すべき顧客”への初動が遅れたり、優先度を誤っている状態です。",
-    core: "顧客の見極めと、即時のアプローチが同時にできていません。",
-    todo: "“今話すべき顧客”を瞬時に見極め、そのまま商談打診までつなげる運用を作ること。",
-    leaderAngle: "責任者視点：インバウンドは最もROIが高い入口。初動遅れは機会損失が大きく、パイプラインが積み上がりません。",
-    memberAngle: "担当者視点：全件追うより「今話すべき人」を拾うだけで、商談化率と再現性が上がります。",
-    ctaText: "「見極め→即時打診」を30分で整理する",
+    badge: "① インバウンド初動の改善ポイント",
+    title: "“今すぐ話すべき顧客”を見極め、初動で成果が出やすい状態に整える",
+    state:
+`インバウンドは一定入っている一方で、
+「誰を・いつ・どの濃度で」追うかの判断がブレやすい局面です。
+初動の見極めが整うと、商談数だけでなく歩留まりも安定します。`,
+    next:
+`次に伸ばすポイントは「見極め → 即時アプローチ」を一連で回すことです。
+
+・商談化しやすい条件（シグナル）を定義する
+・直後に短く確認できる“型”を用意する
+・判断と打診をセットで運用に落とす`,
+    cta: "改善の方向性をもう少し詳しく見る（参考）"
   },
   p2: {
-    badge: "結果：② 優先順位・タイミング迷子型",
-    state: "ISは動いているのに、誰を・いつ追うべきかが定まらず、動きが分散している状態です。",
-    core: "追う順番と、商談打診のタイミングが設計されていません。",
-    todo: "優先順位とタイミングを、担当者の判断ではなく仕組みで決めること。",
-    leaderAngle: "責任者視点：活動量は増やせても、判断基準がないと“忙しいのに商談が増えない”が固定化します。",
-    memberAngle: "担当者視点：迷いが減ると、追客の質とスピードが上がり、商談が安定します。",
-    ctaText: "無駄な動きを減らす整理を30分で行う",
+    badge: "② 優先順位・タイミングの改善ポイント",
+    title: "優先順位の基準を作り、迷いなく動ける状態に整える",
+    state:
+`リードはあるのに、優先判断に時間が取られたり、
+追い方が分散して成果が安定しにくい局面です。
+基準が決まると、アポ率とパイプラインの積み上がりが滑らかになります。`,
+    next:
+`次に伸ばすポイントは「誰を優先するか」を迷わない設計です。
+
+・優先順位のルール（スコア/条件）を決める
+・追う順番と間隔をテンプレ化する
+・空き時間基準ではなく顧客シグナル起点に変える`,
+    cta: "優先順位の決め方を確認する（参考）"
   },
   p3: {
-    badge: "結果：③ 仮説が立てられず動けない型",
-    state: "顧客の興味関心が見えず、「なぜ今連絡するのか」を作れずに止まっている状態です。",
-    core: "仮説を立てるための顧客情報が不足しています。",
-    todo: "顧客行動を起点に、「今話す理由」を持ってアプローチできる状態を作ること。",
-    leaderAngle: "責任者視点：材料がないと再現性が出ず、個人のセンス勝負になります。",
-    memberAngle: "担当者視点：「理由」があると相手の警戒が下がり、会話が前に進みます。",
-    ctaText: "会話のきっかけを30分で整理する",
+    badge: "③ 仮説づくり・理由づけの改善ポイント",
+    title: "顧客の関心に沿って、連絡する理由が自然に作れる状態に整える",
+    state:
+`打ち手がワンパターンになると、
+「何を切り口に連絡するか」が難しくなりやすい局面です。
+仮説の作り方が整うと、通電後の会話も自然に深まります。`,
+    next:
+`次に伸ばすポイントは「仮説 → 理由づけ → 質問」の流れです。
+
+・顧客状況を推定する仮説テンプレを持つ
+・仮説に沿った連絡理由（1行）を作る
+・関心を確認する質問を1つ固定する`,
+    cta: "仮説づくりの型を確認する（参考）"
   },
   p4: {
-    badge: "結果：④ IS責任者｜パイプラインが積み上がらない型",
-    state: "ISは動いており商談も一定数あるものの、来月・再来月のパイプラインが見えない状態です。",
-    core: "商談が生まれる前工程が設計されておらず、パイプラインが“積み上がる構造”になっていません。",
-    todo: "誰を起点に、いつ、どれくらい商談が積み上がるかを設計・可視化すること。",
-    leaderAngle: "責任者視点：KPIと動き方の定義が曖昧だと、改善点が特定できず、数字がブレ続けます。",
-    memberAngle: "担当者視点：方針と優先基準が定まると、迷いなく動けて成果が安定します。",
-    ctaText: "パイプライン課題を30分で整理する",
-  },
+    badge: "④ 体制/KPI/パイプライン（責任者向け）",
+    title: "ISの役割とKPIを整え、パイプラインが積み上がる設計にする",
+    state:
+`ISが動き始めるほど、役割・KPI・運用が曖昧だと
+成果が属人化しやすくなります。
+“何を積み上げるか”が決まると、改善が回り始めます。`,
+    next:
+`次に伸ばすポイントは「設計 → 型化 → 可視化」です。
+
+・役割（誰に何を提供するか）を定義する
+・KPIを“積み上がる指標”に寄せる
+・量だけでなく、優先順位とナーチャリングの型を作る`,
+    cta: "役割・KPI設計の観点を確認する（参考）"
+  }
 };
 
-/** ====== helpers ====== **/
-function el(tag, attrs = {}, children = []) {
-  const node = document.createElement(tag);
-  Object.entries(attrs).forEach(([k, v]) => {
-    if (k === "class") node.className = v;
-    else if (k === "html") node.innerHTML = v;
-    else if (k.startsWith("on") && typeof v === "function") node.addEventListener(k.slice(2), v);
-    else node.setAttribute(k, v);
-  });
-  (children || []).forEach((c) => node.appendChild(c));
-  return node;
-}
+/** =============================
+ * 画面レンダリング
+ * ============================== */
+const screen = document.getElementById("screen");
+const barFill = document.getElementById("barFill");
+const stageText = document.getElementById("stageText");
 
-/** ====== CONFIG (必ずここだけ設定すればOK) ====== **/
-const APPS_SCRIPT_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyAfi1gquWnxXYE6Wp7_zHePG4FoB2j4ljv_E8zlqPHrgxRTOnt1oYQv9J-Tyu5D8uf/exec"; //
-
-/** ====== State ====== **/
 const state = {
-  step: 0, // 0..QUESTIONS.length-1 = 質問, QUESTIONS.length = 基本情報, QUESTIONS.length+1 = 結果
-  answers: {}, // { q1: "yes"|"no", ... }
-  header: { role: "", company: "", name: "", email: "", consent: false },
+  step: 0, // 0=開始, 1..12=質問, 13=基本情報, 14=結果
+  answers: {},
+  header: { role:"", company:"", name:"", email:"" },
+  consent: false // ★デフォルト未チェック（記録は任意）
 };
 
-function setAnswer(qid, value) {
-  state.answers[qid] = value;
+function setProgress(step){
+  const total = QUESTIONS.length + 2; // 質問 + 基本情報 + 結果
+  const current = Math.min(step, total);
+  const pct = Math.round((current / total) * 100);
+  barFill.style.width = pct + "%";
+  if(step === 0) stageText.textContent = "開始";
+  else if(step >=1 && step <= QUESTIONS.length) stageText.textContent = `進捗：${step}/${QUESTIONS.length}`;
+  else if(step === QUESTIONS.length + 1) stageText.textContent = `進捗：${QUESTIONS.length+1}/${QUESTIONS.length+2}（基本情報）`;
+  else stageText.textContent = `進捗：${QUESTIONS.length+2}/${QUESTIONS.length+2}（結果）`;
 }
 
-function getAnswer(qid) {
-  return state.answers[qid] || "";
+function el(tag, attrs={}, children=[]){
+  const n = document.createElement(tag);
+  Object.entries(attrs).forEach(([k,v])=>{
+    if(k==="class") n.className=v;
+    else if(k==="html") n.innerHTML=v;
+    else if(k.startsWith("on") && typeof v==="function") n.addEventListener(k.slice(2), v);
+    else n.setAttribute(k, v);
+  });
+  (children||[]).forEach(c=>n.appendChild(c));
+  return n;
 }
 
-function validateQuestions() {
-  const missing = QUESTIONS.filter((q) => !state.answers[q.id]);
-  if (missing.length) return `未回答が ${missing.length} 問あります。全て回答してください。`;
-  return "";
+function escapeHtml(s){
+  return String(s)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
 }
 
-function validateHeader() {
-  const { role, email, consent } = state.header;
-  if (!role) return "立場（必須）を選択してください。";
-  if (!email) return "メールアドレス（必須）を入力してください。";
-  if (!consent) return "同意チェックを入れてください。";
-  return "";
+function renderStart(){
+  setProgress(0);
+  screen.innerHTML = "";
+  screen.appendChild(el("div",{class:"muted", html:
+    "<b>この診断でわかること</b><br/>" +
+    "・いま詰まっているポイント（4つのうちどれか1つ）<br/>" +
+    "・明日から変えるべき“最小の一手”"
+  }));
+  screen.appendChild(el("div",{style:"height:10px"}));
+  screen.appendChild(el("div",{class:"nav"},[
+    el("button",{class:"primary", onclick:()=>{state.step=1; render();}},[document.createTextNode("診断をはじめる")])
+  ]));
 }
 
-function computeResult() {
-  const qErr = validateQuestions();
-  if (qErr) return { error: qErr };
+function renderQuestion(idx){
+  const q = QUESTIONS[idx-1];
+  setProgress(idx);
+  screen.innerHTML = "";
 
-  const score = { p1: 0, p2: 0, p3: 0, p4: 0 };
-  QUESTIONS.forEach((q) => {
-    const v = state.answers[q.id];
-    if (v === "yes") score[q.point] += 1;
+  screen.appendChild(el("div",{class:"qTitle"},[
+    el("div",{class:"qNo", html:`Q${idx}`}),
+    el("div",{class:"qText", html: escapeHtml(q.text)})
+  ]));
+
+  const opts = el("div",{class:"opts"});
+  OPTIONS.forEach((o)=>{
+    const id = `${q.key}_${o.val}`;
+    const radio = el("input",{type:"radio", name:q.key, id, value:String(o.val)});
+    if(state.answers[q.key] === o.val) radio.checked = true;
+
+    const lab = el("label",{class:"opt", for:id},[
+      radio,
+      el("div",{class:"optTxt", html: escapeHtml(o.label)})
+    ]);
+
+    lab.addEventListener("click", ()=>{
+      state.answers[q.key] = o.val;
+      document.querySelectorAll(`input[name="${q.key}"]`)
+        .forEach(r=>r.checked = (r.value===String(o.val)));
+    });
+
+    opts.appendChild(lab);
   });
 
-  // 同点時の優先（重要度順）
-  const priority = ["p4", "p1", "p2", "p3"];
-  let best = "p3";
-  let bestScore = -1;
-  priority.forEach((p) => {
-    if (score[p] > bestScore) {
-      best = p;
-      bestScore = score[p];
-    }
+  const err = el("div",{class:"err", id:"errBox"},[document.createTextNode("この質問に回答してください。")]);
+
+  screen.appendChild(opts);
+  screen.appendChild(err);
+
+  screen.appendChild(el("div",{class:"nav"},[
+    el("button",{onclick:()=>{
+      if(idx===1){state.step=0;} else {state.step=idx-1;}
+      render();
+    }},[document.createTextNode("戻る")]),
+    el("button",{class:"primary", onclick:()=>{
+      if(typeof state.answers[q.key] !== "number"){
+        document.getElementById("errBox").style.display="block";
+        return;
+      }
+      state.step = (idx===QUESTIONS.length) ? (QUESTIONS.length + 1) : (idx + 1);
+      render();
+    }},[document.createTextNode(idx===QUESTIONS.length ? "基本情報へ" : "次へ")]),
+  ]));
+}
+
+function renderHeader(){
+  setProgress(QUESTIONS.length + 1);
+  screen.innerHTML = "";
+  screen.appendChild(el("div",{class:"muted", html:"<b>基本情報</b><br/>結果の表示前に入力してください（必須項目のみでOK）。"}));
+
+  const fields = el("div",{class:"fields"},[
+    el("div",{class:"field full"},[
+      el("label",{html:"あなたの立場（必須）"}),
+      (() => {
+        const s = el("select",{},[
+          el("option",{value:"", html:"選択してください"}),
+          el("option",{value:"leader", html:"IS責任者 / マネージャー"}),
+          el("option",{value:"sdr", html:"IS担当者（SDR/BDR）"}),
+          el("option",{value:"other", html:"その他（マーケ/営業企画など）"}),
+        ]);
+        s.value = state.header.role || "";
+        s.addEventListener("change", ()=> state.header.role = s.value);
+        return s;
+      })()
+    ]),
+    el("div",{class:"field"},[
+      el("label",{html:"会社名（任意）"}),
+      (() => {
+        const i = el("input",{type:"text", placeholder:"会社名"});
+        i.value = state.header.company || "";
+        i.addEventListener("input", ()=> state.header.company = i.value);
+        return i;
+      })()
+    ]),
+    el("div",{class:"field"},[
+      el("label",{html:"お名前（任意）"}),
+      (() => {
+        const i = el("input",{type:"text", placeholder:"山田 太郎"});
+        i.value = state.header.name || "";
+        i.addEventListener("input", ()=> state.header.name = i.value);
+        return i;
+      })()
+    ]),
+    el("div",{class:"field full"},[
+      el("label",{html:"メールアドレス（必須）"}),
+      (() => {
+        const i = el("input",{type:"email", placeholder:"taro.yamada@example.com"});
+        i.value = state.header.email || "";
+        i.addEventListener("input", ()=> state.header.email = i.value);
+        return i;
+      })()
+    ]),
+  ]);
+
+  const consent = el("div",{class:"consent"},[
+    (() => {
+      const c = el("input",{type:"checkbox"});
+      c.checked = state.consent;
+      c.addEventListener("change", ()=> state.consent = c.checked);
+      return c;
+    })(),
+    el("div",{html:"回答内容を、（任意の）診断改善・分析のために記録してよい"})
+  ]);
+
+  const err = el("div",{class:"err", id:"headerErr"},[document.createTextNode("必須項目（立場・メールアドレス）を入力してください。")]);
+
+  screen.appendChild(fields);
+  screen.appendChild(consent);
+  screen.appendChild(err);
+
+  screen.appendChild(el("div",{class:"nav"},[
+    el("button",{onclick:()=>{state.step=QUESTIONS.length; render();}},[document.createTextNode("戻る")]),
+    el("button",{class:"primary", onclick:()=>{
+      const okRole = !!state.header.role;
+      const okEmail = !!state.header.email && state.header.email.includes("@");
+      if(!okRole || !okEmail){
+        document.getElementById("headerErr").style.display="block";
+        return;
+      }
+      state.step = QUESTIONS.length + 2;
+      render();
+    }},[document.createTextNode("結果を見る")]),
+  ]));
+}
+
+function computeBest(){
+  const score = { p1:0, p2:0, p3:0, p4:0 };
+  QUESTIONS.forEach(q=>{
+    const v = state.answers[q.key];
+    score[q.bucket] += (typeof v==="number" ? v : 0);
   });
 
+  // 同点時の優先度：責任者設計(p4) > 初動(p1) > 優先度(p2) > 仮説(p3)
+  const order = ["p4","p1","p2","p3"];
+  let best = order[0];
+  order.forEach(k=>{ if(score[k] > score[best]) best = k; });
   return { best, score };
 }
 
-function buildPayload(best, score) {
-  const now = new Date().toISOString();
-  const { role, company, name, email } = state.header;
-
-  // 回答も一緒に送る（あとで分析できる）
+function buildPayload(best, score){
+  const now = new Date();
   const answers = {};
-  QUESTIONS.forEach((q) => (answers[q.id] = state.answers[q.id] || ""));
-
+  QUESTIONS.forEach(q=> answers[q.key] = state.answers[q.key]);
   return {
-    timestamp: now,
-    role,
-    company,
-    name,
-    email,
+    timestamp: now.toISOString(),
+    role: state.header.role || "",
+    company: state.header.company || "",
+    name: state.header.name || "",
+    email: state.header.email || "",
+    consent: !!state.consent,
     result: best,
-    p1: score.p1,
-    p2: score.p2,
-    p3: score.p3,
-    p4: score.p4,
+    score,
     answers,
     page_url: location.href,
-    user_agent: navigator.userAgent,
+    user_agent: navigator.userAgent
   };
 }
 
-function trySendToSheet(payload) {
-  const url = (APPS_SCRIPT_WEBAPP_URL || "").trim();
-
-  // 未設定でも結果表示はする（送信だけスキップ）
-  if (!url || url.includes("ここに") || url.includes("PASTE")) {
-    return { attempted: false, message: "未設定（URLを貼るとシートに送れます）" };
-  }
-
-  const bodyStr = JSON.stringify(payload);
-
-  // 1) sendBeacon（推奨：ページ遷移しても送信されやすい / CORSを気にしなくてよい）
-  try {
-    if (navigator.sendBeacon) {
-      const blob = new Blob([bodyStr], { type: "text/plain;charset=utf-8" });
-      const ok = navigator.sendBeacon(url, blob);
-      return { attempted: true, message: ok ? "送信しました（記録中）" : "送信に失敗しました（再送してください）" };
-    }
-  } catch (e) {}
-
-  // 2) fallback: fetch no-cors（レスポンスは読めないが送信自体は飛ぶ）
-  try {
-    fetch(url, {
-      method: "POST",
-      mode: "no-cors",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: bodyStr,
-      keepalive: true,
-    }).catch(() => {});
-    return { attempted: true, message: "送信しました（記録中）" };
-  } catch (e) {
-    return { attempted: true, message: "送信に失敗しました（再送してください）" };
+// ★CORS回避：no-corsで“投げっぱなし”送信（画面には出さない）
+async function trySendToSheet(payload){
+  if(!APPS_SCRIPT_WEBAPP_URL) return { ok:false, reason:"未設定" };
+  try{
+    await fetch(APPS_SCRIPT_WEBAPP_URL, {
+      method:"POST",
+      headers:{ "Content-Type":"text/plain;charset=utf-8" },
+      body: JSON.stringify(payload),
+      mode:"no-cors"
+    });
+    return { ok:true };
+  }catch(e){
+    return { ok:false, reason: String(e) };
   }
 }
 
-function go(step) {
-  state.step = step;
-  renderWizard();
+function resetAll(){
+  state.step = 0;
+  state.answers = {};
+  state.header = { role:"", company:"", name:"", email:"" };
+  state.consent = false; // ★戻した時も未チェックに
+  render();
 }
 
-function next() {
-  if (state.step < QUESTIONS.length) go(state.step + 1);
-}
+async function renderResult(){
+  setProgress(QUESTIONS.length + 2);
+  screen.innerHTML = "";
 
-function prev() {
-  if (state.step > 0) go(state.step - 1);
-}
-
-function renderProgress() {
-  const total = QUESTIONS.length + 1; // 質問 + 基本情報
-  const current = Math.min(state.step + 1, total);
-  const pct = Math.round((current / total) * 100);
-
-  return el("div", { class: "progressWrap" }, [
-    el("div", { class: "muted", html: `進捗：${current}/${total}` }),
-    el("div", { class: "progressBar" }, [el("div", { class: "progressFill", style: `width:${pct}%` })]),
-  ]);
-}
-
-function renderQuestionStep(q, idx) {
-  const title = el("div", { class: "qtext", html: q.title });
-  const opts = el("div", { class: "opts" });
-
-  OPTIONS.forEach((o, j) => {
-    const id = `${q.id}_${idx}_${j}`;
-    const input = el("input", { type: "radio", name: q.id, id, value: o.value });
-    if (getAnswer(q.id) === o.value) input.checked = true;
-    input.addEventListener("change", () => setAnswer(q.id, o.value));
-
-    const label = el("label", { for: id, html: o.label, class: "opt" });
-    const wrap = el("div", { class: "optWrap" }, [input, label]);
-    opts.appendChild(wrap);
-  });
-
-  const nav = el("div", { class: "wizardNav" }, [
-    el("button", { type: "button", class: "secondary", onclick: prev, html: "戻る" }),
-    el("button", {
-      type: "button",
-      onclick: () => {
-        if (!getAnswer(q.id)) {
-          alert("この設問に回答してください。");
-          return;
-        }
-        next();
-      },
-      html: idx === QUESTIONS.length - 1 ? "基本情報へ" : "次へ",
-    }),
-  ]);
-
-  return el("div", { class: "cardInner" }, [
-    renderProgress(),
-    el("div", { class: "badge", html: `Q${idx + 1}` }),
-    title,
-    opts,
-    nav,
-  ]);
-}
-
-function renderHeaderStep() {
-  const roleSel = el("select", { id: "role" }, [
-    el("option", { value: "", html: "選択してください" }),
-    el("option", { value: "leader", html: "IS責任者 / マネージャー" }),
-    el("option", { value: "member", html: "IS担当者（SDR/BDR）" }),
-    el("option", { value: "other", html: "その他（マーケ/営業企画など）" }),
-  ]);
-  roleSel.value = state.header.role || "";
-  roleSel.addEventListener("change", () => (state.header.role = roleSel.value));
-
-  const company = el("input", { id: "company", type: "text", placeholder: "例）株式会社〇〇" });
-  company.value = state.header.company || "";
-  company.addEventListener("input", () => (state.header.company = company.value));
-
-  const name = el("input", { id: "name", type: "text", placeholder: "例）山田 太郎" });
-  name.value = state.header.name || "";
-  name.addEventListener("input", () => (state.header.name = name.value));
-
-  const email = el("input", { id: "email", type: "email", placeholder: "例）taro.yamada@company.co.jp", required: true });
-  email.value = state.header.email || "";
-  email.addEventListener("input", () => (state.header.email = email.value));
-
-  const consent = el("input", { id: "consent", type: "checkbox" });
-  consent.checked = !!state.header.consent;
-  consent.addEventListener("change", () => (state.header.consent = consent.checked));
-
-  const form = el("div", { class: "grid2" }, [
-    el("div", { class: "field" }, [el("label", { for: "role", html: "あなたの立場（必須）" }), roleSel]),
-    el("div", { class: "field" }, [el("label", { for: "company", html: "会社名（任意）" }), company]),
-    el("div", { class: "field" }, [el("label", { for: "name", html: "お名前（任意）" }), name]),
-    el("div", { class: "field" }, [el("label", { for: "email", html: "メールアドレス（必須）" }), email]),
-  ]);
-
-  const consentWrap = el("div", { class: "consent" }, [
-    consent,
-    el("label", {
-      for: "consent",
-      class: "muted",
-      style: "margin-top:1px",
-      html: "診断結果の表示および、結果に基づくご案内のために入力情報を利用することに同意します。",
-    }),
-  ]);
-
-  const nav = el("div", { class: "wizardNav" }, [
-    el("button", { type: "button", class: "secondary", onclick: prev, html: "戻る" }),
-    el("button", {
-      type: "button",
-      onclick: () => {
-        const headerErr = validateHeader();
-        if (headerErr) {
-          alert(headerErr);
-          return;
-        }
-        renderResult();
-      },
-      html: "結果を見る",
-    }),
-  ]);
-
-  return el("div", { class: "cardInner" }, [
-    renderProgress(),
-    el("div", { class: "badge", html: "基本情報" }),
-    el("div", { class: "muted", html: "最後に、結果の表示とご案内のための情報を入力してください。" }),
-    form,
-    consentWrap,
-    el("div", { class: "small", html: "※結果表示は即時に行います。送信は裏側で実行されます（通信状況により遅れる場合があります）。" }),
-    nav,
-  ]);
-}
-
-function renderWizard() {
-  const root = document.getElementById("wizard");
-  root.innerHTML = "";
-
-  // step: 質問
-  if (state.step < QUESTIONS.length) {
-    const q = QUESTIONS[state.step];
-    root.appendChild(renderQuestionStep(q, state.step));
-    return;
-  }
-
-  // step: 基本情報
-  if (state.step === QUESTIONS.length) {
-    root.appendChild(renderHeaderStep());
-    return;
-  }
-}
-
-function renderResult() {
-  const out = document.getElementById("result");
-  out.innerHTML = "";
-
-  const res = computeResult();
-  if (res.error) {
-    out.innerHTML = `<div class="card"><div class="err"><b>エラー：</b>${res.error}</div></div>`;
-    out.scrollIntoView({ behavior: "smooth", block: "start" });
-    return;
-  }
-
-  const best = res.best;
+  const { best, score } = computeBest();
   const copy = RESULT_COPY[best];
-  const role = (state.header.role || "").trim();
-  const roleLine = role === "leader" ? copy.leaderAngle : copy.memberAngle;
 
-  const payload = buildPayload(best, res.score);
-  const sendStatus = trySendToSheet(payload);
+  // 結果表示（送信とは独立）
+  screen.appendChild(el("div",{class:"badge", html: escapeHtml(copy.badge)}));
+  screen.appendChild(el("div",{class:"resTitle", html: escapeHtml(copy.title)}));
 
-  out.innerHTML = `
-    <div class="card">
-      <div class="badge">${copy.badge}</div>
+  const grid = el("div",{class:"resultGrid"},[
+    el("div",{class:"resBlock"},[
+      el("h3",{html:"現在の状況"}),
+      el("p",{html: escapeHtml(copy.state)})
+    ]),
+    el("div",{class:"resBlock"},[
+      el("h3",{html:"次に伸ばすポイント"}),
+      el("p",{html: escapeHtml(copy.next)})
+    ]),
+  ]);
+  screen.appendChild(grid);
 
-      <div class="resBlock" style="margin-top:12px">
-        <h3>あなたの状態</h3>
-        <p>${copy.state}</p>
-      </div>
+  // 参考リンク（商談色を出さない）
+  const ctaRow = el("div",{class:"ctaRow"},[
+    (REFERENCE_URL ? el("a",{class:"btnlink", href:REFERENCE_URL, target:"_blank", rel:"noopener"},[
+      document.createTextNode(copy.cta)
+    ]) : el("span",{class:"muted", html:""})),
+    el("button",{onclick:()=>resetAll()},[document.createTextNode("もう一度診断する")])
+  ]);
+  screen.appendChild(ctaRow);
 
-      <div class="resBlock">
-        <h3>本質的な課題</h3>
-        <p>${copy.core}</p>
-      </div>
+  if(REFERENCE_URL){
+    screen.appendChild(el("div",{class:"muted", html:"※上のリンクは参考情報です。結果を見るだけでもOKです。"}));
+  }
 
-      <div class="resBlock">
-        <h3>やるべきこと</h3>
-        <p>${copy.todo}</p>
-      </div>
-
-      <div class="resBlock">
-        <h3>補足（あなたの立場に合わせた見立て）</h3>
-        <p>${roleLine}</p>
-      </div>
-
-      <div class="cta">
-        <a class="ctaBtn" href="${BOOKING_URL}" target="_blank" rel="noopener">${copy.ctaText}</a>
-        <a class="ctaBtn secondary" href="#" id="btnResetAll">もう一度診断する</a>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="small">
-        <b>送信ステータス：</b> ${sendStatus.message}<br/>
-        ※結果表示と送信は独立しています（送信が失敗しても、結果は表示されます）。
-      </div>
-    </div>
-  `;
-
-  document.getElementById("btnResetAll").onclick = (e) => {
-    e.preventDefault();
-    state.step = 0;
-    state.answers = {};
-    state.header = { role: "", company: "", name: "", email: "", consent: false };
-    out.innerHTML = "";
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    renderWizard();
-  };
-
-  out.scrollIntoView({ behavior: "smooth", block: "start" });
+  // 送信は裏で実行（同意がONのときだけ）
+  if(state.consent && APPS_SCRIPT_WEBAPP_URL){
+    const payload = buildPayload(best, score);
+    trySendToSheet(payload);
+  }
 }
 
-renderWizard();
+function render(){
+  if(state.step === 0) return renderStart();
+  if(state.step >= 1 && state.step <= QUESTIONS.length) return renderQuestion(state.step);
+  if(state.step === QUESTIONS.length + 1) return renderHeader();
+  return renderResult();
+}
+
+render();
 </script>
 </body>
 </html>
