@@ -7,7 +7,6 @@
   <style>
     :root{
       --bg:#0b1220;
-      --panel:#111b2e;
       --text:#e8eefc;
       --muted:#a8b3cc;
       --line:rgba(255,255,255,.12);
@@ -148,7 +147,6 @@
     .resBlock h3{margin:0 0 6px;font-size:13px;color:#dbe7ff;letter-spacing:.2px;}
     .resBlock p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.7;white-space:pre-wrap;}
 
-    /* CTA行：中央寄せ */
     .ctaRow{
       display:flex;
       justify-content:center;
@@ -156,19 +154,17 @@
       flex-wrap:wrap;
       margin-top:14px;
     }
-
-    /* 参考ボタン：大きく・目立つ */
     a.btnlink{
       text-decoration:none;
       display:inline-flex;align-items:center;justify-content:center;
-      padding:14px 18px;               /* 大きく */
+      padding:14px 18px;
       border-radius:14px;
       border:1px solid rgba(255,255,255,.12);
-      background: linear-gradient(90deg, rgba(255, 193, 7, .95), rgba(255, 107, 107, .85)); /* 目立つ色 */
+      background: linear-gradient(90deg, rgba(255, 193, 7, .95), rgba(255, 107, 107, .85));
       color:#0b1220;
       font-size:15px;
       font-weight:800;
-      min-width: 260px;               /* 中央で“ボタン感”出す */
+      min-width: 260px;
       box-shadow: 0 12px 28px rgba(0,0,0,.35);
       transition:.15s ease;
       text-align:center;
@@ -205,16 +201,16 @@
 
 <script>
 /** =============================
- * 設定（ここだけ編集すればOK）
+ * 設定
  * ============================== */
 
-// 1) Apps Script WebアプリURL（スプレッドに記録する場合のみ）
-const APPS_SCRIPT_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbysn51rVjg26kv5JYzsitAC0DV6pPZ-ITbFVAS4ups-4vJS_D5Zi5tbxKWajTeEoigv/exec";
+// ★あなたの最新 /exec（反映済み）
+const APPS_SCRIPT_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzCZVylU7vC0u-J5EFUTFBOTboGxVvfDTWdTPlpYQ3bzzNYlR-JvLMaKTeiNl2P9PTN/exec";
 
-// 2) 参考リンク（結果画面に出す。不要なら空文字 "" にする）
+// 参考リンク
 const REFERENCE_URL = "https://meetings.immedio.io/date_select/nurturing_consulting?uk=bJkbljnfDukCjSlBrAyh#calendar";
 
-// 3) 質問（12問）
+// 質問
 const QUESTIONS = [
   { key:"q1", text:"問い合わせ・資料請求が入った直後、『今すぐ話すべき顧客』を明確に判断できないことがある", bucket:"p1" },
   { key:"q2", text:"インバウンドが商談につながらなかった理由を、『温度感が低かった』で終わらせていることが多い", bucket:"p1" },
@@ -233,7 +229,6 @@ const QUESTIONS = [
   { key:"q12", text:"架電数・メール数など『とりあえず量をやる』以外の再現性あるやり方が作れていない", bucket:"p4" },
 ];
 
-// 4) 選択肢（4段階）
 const OPTIONS = [
   { label:"当てはまる", val:3 },
   { label:"どちらかというと当てはまる", val:2 },
@@ -498,7 +493,6 @@ function computeBest(){
     const v = state.answers[q.key];
     score[q.bucket] += (typeof v==="number" ? v : 0);
   });
-
   const order = ["p4","p1","p2","p3"];
   let best = order[0];
   order.forEach(k=>{ if(score[k] > score[best]) best = k; });
@@ -524,16 +518,34 @@ function buildPayload(best, score){
   };
 }
 
-async function trySendToSheet(payload){
+/* ★確実にGASへ届く：hidden form送信（CORS不要） */
+function trySendToSheet(payload){
   if(!APPS_SCRIPT_WEBAPP_URL) return;
-  try{
-    await fetch(APPS_SCRIPT_WEBAPP_URL, {
-      method:"POST",
-      headers:{ "Content-Type":"text/plain;charset=utf-8" },
-      body: JSON.stringify(payload),
-      mode:"no-cors"
-    });
-  }catch(e){}
+
+  let iframe = document.getElementById("sheetSenderFrame");
+  if(!iframe){
+    iframe = document.createElement("iframe");
+    iframe.name = "sheetSenderFrame";
+    iframe.id = "sheetSenderFrame";
+    iframe.style.display = "none";
+    document.body.appendChild(iframe);
+  }
+
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = APPS_SCRIPT_WEBAPP_URL;
+  form.target = "sheetSenderFrame";
+
+  const input = document.createElement("input");
+  input.type = "hidden";
+  input.name = "payload";
+  input.value = JSON.stringify(payload);
+
+  form.appendChild(input);
+  document.body.appendChild(form);
+
+  form.submit();
+  form.remove();
 }
 
 function resetAll(){
@@ -544,7 +556,7 @@ function resetAll(){
   render();
 }
 
-async function renderResult(){
+function renderResult(){
   setProgress(QUESTIONS.length + 2);
   screen.innerHTML = "";
 
@@ -573,7 +585,6 @@ async function renderResult(){
   ]);
   screen.appendChild(ctaRow);
 
-  // 「もう一度診断する」は小さく下に配置（中央CTAの邪魔をしない）
   screen.appendChild(el("div",{style:"margin-top:10px; text-align:center;"},[
     el("button",{onclick:()=>resetAll()},[document.createTextNode("もう一度診断する")])
   ]));
@@ -582,6 +593,7 @@ async function renderResult(){
     screen.appendChild(el("div",{class:"muted", html:"※上のリンクは参考情報です。結果を見るだけでもOKです。"}));
   }
 
+  // 同意がONのときだけ送信
   if(state.consent && APPS_SCRIPT_WEBAPP_URL){
     const payload = buildPayload(best, score);
     trySendToSheet(payload);
