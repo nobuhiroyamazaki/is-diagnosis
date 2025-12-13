@@ -148,18 +148,32 @@
     .resBlock h3{margin:0 0 6px;font-size:13px;color:#dbe7ff;letter-spacing:.2px;}
     .resBlock p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.7;white-space:pre-wrap;}
 
-    .ctaRow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;}
+    /* CTA行：中央寄せ */
+    .ctaRow{
+      display:flex;
+      justify-content:center;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+
+    /* 参考ボタン：大きく・目立つ */
     a.btnlink{
       text-decoration:none;
       display:inline-flex;align-items:center;justify-content:center;
-      padding:10px 14px;border-radius:12px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.04);
-      color:var(--text);
-      font-size:14px;
+      padding:14px 18px;               /* 大きく */
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: linear-gradient(90deg, rgba(255, 193, 7, .95), rgba(255, 107, 107, .85)); /* 目立つ色 */
+      color:#0b1220;
+      font-size:15px;
+      font-weight:800;
+      min-width: 260px;               /* 中央で“ボタン感”出す */
+      box-shadow: 0 12px 28px rgba(0,0,0,.35);
       transition:.15s ease;
+      text-align:center;
     }
-    a.btnlink:hover{transform: translateY(-1px); border-color: rgba(106,167,255,.35)}
+    a.btnlink:hover{transform: translateY(-1px); filter: brightness(1.02);}
 
     footer{margin-top:18px;color: rgba(255,255,255,.35);font-size:12px;text-align:center;}
   </style>
@@ -175,7 +189,6 @@
       <div class="chips">
         <div class="chip">形式：1問ずつ</div>
         <div class="chip">出力：4つの改善ポイントのうち1つ</div>
-        <div class="chip">記録：スプレッド（任意）</div>
       </div>
 
       <div class="progressWrap">
@@ -196,30 +209,25 @@
  * ============================== */
 
 // 1) Apps Script WebアプリURL（スプレッドに記録する場合のみ）
-// 例: "https://script.google.com/macros/s/XXXX/exec"
-const APPS_SCRIPT_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbzbx0q9Y6ZhWViEcz8FfTkIze71mDKz9ssif53LUfnDuqooeaVoVrCKWByuaeFkWA/exec"; // /exec を貼る
+const APPS_SCRIPT_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbysn51rVjg26kv5JYzsitAC0DV6pPZ-ITbFVAS4ups-4vJS_D5Zi5tbxKWajTeEoigv/exec";
 
 // 2) 参考リンク（結果画面に出す。不要なら空文字 "" にする）
 const REFERENCE_URL = "https://meetings.immedio.io/date_select/nurturing_consulting?uk=bJkbljnfDukCjSlBrAyh#calendar";
 
 // 3) 質問（12問）
 const QUESTIONS = [
-  // p1：インバウンド初動・取りこぼし
   { key:"q1", text:"問い合わせ・資料請求が入った直後、『今すぐ話すべき顧客』を明確に判断できないことがある", bucket:"p1" },
   { key:"q2", text:"インバウンドが商談につながらなかった理由を、『温度感が低かった』で終わらせていることが多い", bucket:"p1" },
   { key:"q3", text:"後から振り返って、『この問い合わせは本当は商談になったはず』と感じることがある", bucket:"p1" },
 
-  // p2：優先順位・タイミング
   { key:"q4", text:"複数リードが同時にあるとき、『今、誰を優先すべきか』を明確な基準で判断できていない", bucket:"p2" },
   { key:"q5", text:"後から振り返って、『今じゃなかったリード』に時間を使っていたと感じることがある", bucket:"p2" },
   { key:"q6", text:"商談を打診するタイミングが、顧客状況より担当者の判断や空き時間に左右されている", bucket:"p2" },
 
-  // p3：仮説づくり・理由づけ
   { key:"q7", text:"顧客に連絡する際、『この会社はいま何に困っていそうか』を仮説として持てないことがある", bucket:"p3" },
   { key:"q8", text:"顧客の興味関心が掴めず、『なぜ今連絡するのか』の理由づけが難しい", bucket:"p3" },
   { key:"q9", text:"電話・メールの打ち手がワンパターンになり、次の一手が出てこないことがある", bucket:"p3" },
 
-  // p4：体制/KPI/パイプライン（責任者向け）
   { key:"q10", text:"インサイドセールスの役割や、何をKPIにすべきかが明確に決まっていない", bucket:"p4" },
   { key:"q11", text:"商談数は一定あるが、翌月以降につながるパイプラインが安定して積み上がらない", bucket:"p4" },
   { key:"q12", text:"架電数・メール数など『とりあえず量をやる』以外の再現性あるやり方が作れていない", bucket:"p4" },
@@ -233,9 +241,6 @@ const OPTIONS = [
   { label:"当てはまらない", val:0 },
 ];
 
-/** =============================
- * 結果文（ポジティブ寄り）
- * ============================== */
 const RESULT_COPY = {
   p1: {
     badge: "① インバウンド初動の改善ポイント",
@@ -299,22 +304,19 @@ const RESULT_COPY = {
   }
 };
 
-/** =============================
- * 画面レンダリング
- * ============================== */
 const screen = document.getElementById("screen");
 const barFill = document.getElementById("barFill");
 const stageText = document.getElementById("stageText");
 
 const state = {
-  step: 0, // 0=開始, 1..12=質問, 13=基本情報, 14=結果
+  step: 0,
   answers: {},
   header: { role:"", company:"", name:"", email:"" },
-  consent: false // ★デフォルト未チェック（記録は任意）
+  consent: false
 };
 
 function setProgress(step){
-  const total = QUESTIONS.length + 2; // 質問 + 基本情報 + 結果
+  const total = QUESTIONS.length + 2;
   const current = Math.min(step, total);
   const pct = Math.round((current / total) * 100);
   barFill.style.width = pct + "%";
@@ -497,7 +499,6 @@ function computeBest(){
     score[q.bucket] += (typeof v==="number" ? v : 0);
   });
 
-  // 同点時の優先度：責任者設計(p4) > 初動(p1) > 優先度(p2) > 仮説(p3)
   const order = ["p4","p1","p2","p3"];
   let best = order[0];
   order.forEach(k=>{ if(score[k] > score[best]) best = k; });
@@ -523,9 +524,8 @@ function buildPayload(best, score){
   };
 }
 
-// ★CORS回避：no-corsで“投げっぱなし”送信（画面には出さない）
 async function trySendToSheet(payload){
-  if(!APPS_SCRIPT_WEBAPP_URL) return { ok:false, reason:"未設定" };
+  if(!APPS_SCRIPT_WEBAPP_URL) return;
   try{
     await fetch(APPS_SCRIPT_WEBAPP_URL, {
       method:"POST",
@@ -533,17 +533,14 @@ async function trySendToSheet(payload){
       body: JSON.stringify(payload),
       mode:"no-cors"
     });
-    return { ok:true };
-  }catch(e){
-    return { ok:false, reason: String(e) };
-  }
+  }catch(e){}
 }
 
 function resetAll(){
   state.step = 0;
   state.answers = {};
   state.header = { role:"", company:"", name:"", email:"" };
-  state.consent = false; // ★戻した時も未チェックに
+  state.consent = false;
   render();
 }
 
@@ -554,7 +551,6 @@ async function renderResult(){
   const { best, score } = computeBest();
   const copy = RESULT_COPY[best];
 
-  // 結果表示（送信とは独立）
   screen.appendChild(el("div",{class:"badge", html: escapeHtml(copy.badge)}));
   screen.appendChild(el("div",{class:"resTitle", html: escapeHtml(copy.title)}));
 
@@ -570,20 +566,22 @@ async function renderResult(){
   ]);
   screen.appendChild(grid);
 
-  // 参考リンク（商談色を出さない）
   const ctaRow = el("div",{class:"ctaRow"},[
     (REFERENCE_URL ? el("a",{class:"btnlink", href:REFERENCE_URL, target:"_blank", rel:"noopener"},[
       document.createTextNode(copy.cta)
-    ]) : el("span",{class:"muted", html:""})),
-    el("button",{onclick:()=>resetAll()},[document.createTextNode("もう一度診断する")])
+    ]) : el("span",{class:"muted", html:""}))
   ]);
   screen.appendChild(ctaRow);
+
+  // 「もう一度診断する」は小さく下に配置（中央CTAの邪魔をしない）
+  screen.appendChild(el("div",{style:"margin-top:10px; text-align:center;"},[
+    el("button",{onclick:()=>resetAll()},[document.createTextNode("もう一度診断する")])
+  ]));
 
   if(REFERENCE_URL){
     screen.appendChild(el("div",{class:"muted", html:"※上のリンクは参考情報です。結果を見るだけでもOKです。"}));
   }
 
-  // 送信は裏で実行（同意がONのときだけ）
   if(state.consent && APPS_SCRIPT_WEBAPP_URL){
     const payload = buildPayload(best, score);
     trySendToSheet(payload);
